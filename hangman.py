@@ -1,7 +1,7 @@
 import random
 
 attempt = 8
-number_of_underscore = 0
+number_of_underscore = []
 letters_guessed = []
 secret_word = []
 
@@ -20,7 +20,6 @@ def wordToGameMode(secretWord):
 
     for i in range(len(secretWord)):
         number_of_underscore += "_"
-
     return number_of_underscore
 
 def splitWord(secretWord, lettersGuessed):
@@ -38,12 +37,27 @@ def isWordGuessed(secret_word, letters_guessed):
       False otherwise
     '''
 
-    if secret_word == letters_guessed:
-        print("You win!")
-        return True
+    comparison = [len(set(i)) == 1 for i in zip(letters_guessed, secret_word)]
+    if comparison is True:
+        print("You win")
     else:
-        print("You lost!")
-        return False
+        print("You lost")
+
+    # if secret_word == letters_guessed:
+    #     print("You win!")
+    #     return True
+    # else:
+    #     print("You lost!")
+    #     return False
+
+#no need to double loop
+
+def checkLetters():
+
+    for i in range(len(secret_word)):
+        for j in range(len(letters_guessed)):
+            if letters_guessed[j] == secret_word[i]:
+
 
 
 def getGuessedWord(secretWord, lettersGuessed):
@@ -61,15 +75,9 @@ def getGuessedWord(secretWord, lettersGuessed):
 
     if len(lettersGuessed) > 1 :
         print("Enter one letter at a time")
-        getGuessedWord(secretWord,lettersGuessed)
-
     else:
-        for i in range(len(secretWord)):
-            for j in range(len(lettersGuessed)):
-                if secretWord[i] == lettersGuessed[j]:
-                    secretWord[i] = secretWord
-                print(secretWord[i])
-
+        checkLetters()
+        getAvailableLetters(lettersGuessed)
 
 
 def getAvailableLetters(lettersGuessed):
@@ -79,12 +87,12 @@ def getAvailableLetters(lettersGuessed):
       yet been guessed.
     '''
 
-    if lettersGuessed != []:
+    if lettersGuessed == []:
         print("You have picked %s" % lettersGuessed)
         print("Choose other letter")
         getGuessedWord(secretWord, lettersGuessed)
     else:
-        letters_guessed.append(lettersGuessed)
+        letters_guessed.append(letters_guessed)
 
 
 def hangman(secretWord):
@@ -108,7 +116,10 @@ def hangman(secretWord):
     # FILL IN YOUR CODE HERE...
 
     loadWord()
+    wordToGameMode(secretWord)
+    print(number_of_underscore)
     print("Number of the word: %s" % len(secretWord))
+
     getGuessedWord(secretWord, letters_guessed)
     isWordGuessed(secretWord, letters_guessed)
     getAvailableLetters(letters_guessed)

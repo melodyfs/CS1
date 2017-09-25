@@ -57,7 +57,7 @@ random.seed(1)
 #     pass
 
 
-class Roulette:
+class Roulette2:
     bank_account = 1000
     bet_amount = 0
     bet_color = None
@@ -74,19 +74,20 @@ class Roulette:
         return [bet_color, bet_number, bet_amount]
 
     def roll_ball():
-        # returns a random number between 0 and 37
+
         return random.randint(0, 37)
 
     def check_results(bet, number_result):
         # Compares bet_color to color rolled. Compares bet_number to number_rolled.
         color_result = None
-        if number_result in Roulette.red:
+        if number_result in Roulette2.red:
             color_result = "red"
-        elif number_result in Roulette.black:
+        elif number_result in Roulette2.black:
             color_result = "black"
         else:
             color_result = "green"
         print("Boll number is %s, and Color is %s" % (number_result, color_result))
+        
         if bet[0] == color_result:
             if bet[1] == number_result:
                 return [True, True]
@@ -113,59 +114,59 @@ class Roulette:
 
     def confirm_amount():
         amount = int(input("Amount: "))
-        if amount < 10:
-            print("Minimum bet is $10.")
-            amount = Roulette.confirm_amount()
-        elif amount > Roulette.bank_account:
+        if amount < 1:
+            print("Minimum bet is $1.")
+            amount = Roulette2.confirm_amount()
+        elif amount > Roulette2.bank_account:
             print("You do not have that much money.")
-            amount = Roulette.confirm_amount()
+            amount = Roulette2.confirm_amount()
         else:
             amount = amount
             print("%s" % amount)
+
         return amount
 
     def continue_bet():
         yes_or_no = input("Continue? Yes or No: ")
         if yes_or_no == "Yes" or yes_or_no == "yes":
-            Roulette.play_game()
+            Roulette2.play_game()
         elif yes_or_no == "No" or yes_or_no == "no":
             pass
-        else:
-            print("Excuse me. Say again please?")
-            Roulette.continue_bet()
+
 
     def play_game():
-        # This is the main function for the game.
-        # When this function is called, one full iteration of roulette, including:
-        # Take the user's bet. Roll the ball. Determine if the user won or lost.
-        # Pay or deduct money from the user accordingly.
+
         color = input("Color: ")
         if color != "red" and color != "black" and color != "green":
             print("Please choose from red, black or green")
-            Roulette.play_game()
+            Roulette2.play_game()
         else:
             number = int(input("Number: "))
             if number in range(0, 38):
                 number = number
-                amount = Roulette.confirm_amount()
+                amount = Roulette2.confirm_amount()
             else:
                 number = None
-                amount = Roulette.confirm_amount()
-        bet = Roulette.take_bet(color, number, amount)
-        number_result = Roulette.roll_ball()
-        check = Roulette.check_results(bet, number_result)
+                amount = Roulette2.confirm_amount()
+
+        bet = Roulette2.take_bet(color, number, amount)
+        number_result = Roulette2.roll_ball()
+        check = Roulette2.check_results(bet, number_result)
         print("%s" % bet)
-        money = Roulette.payout(check, bet)
-        win = Roulette.bank_account - bet[2] + money
-        lost = Roulette.bank_account + money
+
+        money = Roulette2.payout(check, bet)
+        win = Roulette2.bank_account - bet[2] + money
+        lost = Roulette2.bank_account + money
+
         if money > 0:
-            print("YOU WON $%s! Now you have $%s in your bank account" % (money, win))
-            Roulette.bank_account = win
+            print("YOU WON $%s!" % (money))
+            Roulette2.bank_account = win
         else:
-            print("YOU LOST $%s! Now you have $%s in your bank account" % (-money, lost))
-            Roulette.bank_account = lost
-        Roulette.continue_bet()
+            print("YOU LOST $%s!" % (-money))
+            Roulette2.bank_account = lost
+
+        Roulette2.continue_bet()
 
 
-roulette = Roulette
+roulette = Roulette2
 roulette.play_game()
