@@ -87,7 +87,7 @@ class Roulette2:
         else:
             color_result = "green"
         print("Boll number is %s, and Color is %s" % (number_result, color_result))
-        
+
         if bet[0] == color_result:
             if bet[1] == number_result:
                 return [True, True]
