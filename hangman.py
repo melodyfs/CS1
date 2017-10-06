@@ -1,9 +1,8 @@
 import random
 
-number_of_underscore = []
 letters_guessed = []
 secret_word = []
-secretWord = []
+secretWord = ""
 attempt = 5
 
 
@@ -13,6 +12,7 @@ def loadWord():
    f.close()
 
    wordsList = wordsList[0].split(' ')
+   global secretWord
    secretWord = random.choice(wordsList)
    return secretWord
 
@@ -55,10 +55,9 @@ def checkLetters():
     if letters_guessed in secret_word:
         for i in range(len(secret_word)):
             if secret_word[i] == letters_guessed:
-                secret_word[i] == game_word[i]
-        game_word = ''.join(game_word)
-        print("%s" % game_word)
-        return True
+                game_word = ''.join(game_word)
+                print("%s" % game_word)
+                return True
     else:
         print("Try again!")
         return False
@@ -76,9 +75,9 @@ def getGuessedWord():
     print("Number of the word: %s" % len(secretWord))
 
 
-    if letters_guessed != []:
-        print("You have picked %s" % letters_guessed)
-        print("Choose other letter")
+    # if letters_guessed != []:
+    #     print("You have picked %s" % letters_guessed)
+    #     print("Choose other letter")
 
     lettersGuessed = input("Guess a letter: ")
 
@@ -92,6 +91,7 @@ def getGuessedWord():
             getGuessedWord()
         else:
             letters_guessed.append(lettersGuessed)
+            return lettersGuessed
 
 
 def hangman(secretWord):
