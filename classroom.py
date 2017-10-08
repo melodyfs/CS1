@@ -2,14 +2,40 @@ import sys
 from student import Student
 
 
-class Classroom():
+class Classroom(Student):
 
     courses = {}
+    assignments = {}
+
 
     def __init__(self, name):
         self.name = name
         self.time = None
-        self.course = {}
+        self.roster = {}
+
+        #enroll students
+    def enroll_student(self,stud_name, stud_id):
+        student = Student(stud_name, stud_id)
+        self.roster = student.add_student()
+
+        return self.roster
+
+    # give same assignment to each student
+    def give_assignment(self, stud_id, new_hw, grade):
+        new_assignment = Classroom.assignments
+        student = Student.students
+        stu_asgn = Student.assignments
+
+        for i in self.roster.values():
+            if i == stud_id:
+                new_assignment[stud_id] = new_hw
+                Student().add_assignment(grade)
+                print(stud_id)
+                print(new_assignment[stud_id])
+                print(student.assignment)
+                return new_assignment[stud_id]
+
+        #view students
 
     def add_course(self, course_name, time):
         course = Classroom.courses
@@ -34,10 +60,16 @@ class Classroom():
         else:
             print("No course found")
 
-    
 
-# cs = Classroom("CS")
-# print(cs.add_course("python", "7-8am"))
+
+
+cs = Classroom("CS")
+print(cs.add_course("python", "7-8am"))
+print(cs.enroll_student("Newbie", 1))
+print("---------")
+print(cs.roster)
+cs.give_assignment(1, "gradebook", 100)
+print(cs.assignments)
 # cs1 = Classroom("CS1", "")
 # cs1.delete_course()
 # print("-------")

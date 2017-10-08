@@ -14,7 +14,7 @@ class Student():
     def add_student(self):
         student = Student.students
         student[self.name] = int(self.stuid)
-        print student
+        # print student
         return student
 
 
@@ -27,9 +27,9 @@ class Student():
         else:
             print "Name does not exist"
 
-    def add_assignment(self, hw, grade):
+    def add_assignment(self, grade):
         assignment = Student.assignments
-        assignment[hw] = grade
+        assignment[self.stuid] = grade
         print assignment
 
         return assignment

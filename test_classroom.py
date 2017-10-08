@@ -37,4 +37,4 @@ def test_update_course_time():
 
 test_init_class()
 # test_add_course()
-test_delete_course()
+# test_delete_course()
