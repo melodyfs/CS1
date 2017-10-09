@@ -5,8 +5,6 @@ from student import Student
 class Classroom(Student):
 
     courses = {}
-    assignments = {}
-
 
     def __init__(self, name):
         self.name = name
@@ -14,28 +12,23 @@ class Classroom(Student):
         self.roster = {}
 
         #enroll students
-    def enroll_student(self,stud_name, stud_id):
+
+    def enroll_student(self, stud_name, stud_id):
         student = Student(stud_name, stud_id)
         self.roster = student.add_student()
 
         return self.roster
 
-    # give same assignment to each student
-    def give_assignment(self, stud_id, new_hw, grade):
-        new_assignment = Classroom.assignments
-        student = Student.students
-        stu_asgn = Student.assignments
+    #pass assignment to a student with the default grade 0
+    def give_assignment(self, stud_id, new_hw):
+        student = Student(self.roster, stud_id)
+        student.add_assignment(stud_id, new_hw)
 
-        for i in self.roster.values():
-            if i == stud_id:
-                new_assignment[stud_id] = new_hw
-                Student().add_assignment(grade)
-                print(stud_id)
-                print(new_assignment[stud_id])
-                print(student.assignment)
-                return new_assignment[stud_id]
+    # update the grade once the student complete the assignment
+    def edit_grade(self, stud_id, hw, final_grade):
+        student = Student(self.roster, stud_id)
+        student.update_assignment_grade(stud_id, hw, final_grade)
 
-        #view students
 
     def add_course(self, course_name, time):
         course = Classroom.courses
@@ -63,13 +56,20 @@ class Classroom(Student):
 
 
 
-cs = Classroom("CS")
-print(cs.add_course("python", "7-8am"))
-print(cs.enroll_student("Newbie", 1))
-print("---------")
-print(cs.roster)
-cs.give_assignment(1, "gradebook", 100)
-print(cs.assignments)
+# cs = Classroom("CS")
+# print(cs.add_course("python", "7-8am"))
+# cs.enroll_student("Newbie", 1)
+# cs.give_assignment(1, "Read")
+#
+# # print(cs.assignments[1])
+# print("---------")
+# print(cs.roster)
+# cs.edit_grade(1, "Read", 130)
+# print(cs.assignments[1]["Read"])
+
+
+# cs.give_assignment(1, "gradebook", 100)
+# print(cs.assignments)
 # cs1 = Classroom("CS1", "")
 # cs1.delete_course()
 # print("-------")
