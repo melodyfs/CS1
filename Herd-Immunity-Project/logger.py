@@ -57,6 +57,9 @@ class Logger(object):
 
     def write_metadata(self, pop_size, vacc_percentage, virus_name, mortality_rate,
                        basic_repro_num):
+          f = open('%s.txt' % self.file_name, 'w')
+          f.write("%s\t%s\t%s\t%s\t%s\n" % (pop_size, vacc_percentage, virus_name, mortality_rate, basic_repro_num))
+          f.close()
         # TODO: Finish this method.  The simulation class should use this method
         # immediately upon creation, to log the specific parameters of the simulation
         # as the first line of the file.  This line of metadata should be tab-delimited
@@ -71,6 +74,8 @@ class Logger(object):
 
     def log_interaction(self, person1, person2, did_infect=None,
                         person2_vacc=None, person2_sick=None):
+        with open('%s.txt' % self.file_name, 'a') as f:
+            f.write("%s\t%s\t%s\t%s\t%s\n" % (person1, person2, did_infect, person2_vacc, person2_sick))
         # TODO: Finish this method.  The Simulation object should use this method to
         # log every interaction a sick individual has during each time step.  This method
         # should accomplish this by using the information from person1 (the infected person),
@@ -85,6 +90,8 @@ class Logger(object):
         pass
 
     def log_infection_survival(self, person, did_die_from_infection):
+        with open('%s.txt' % self.file_name, 'a') as f:
+            f.write("%s\t%s\n" % (person, did_die_from_infection))
         # TODO: Finish this method.  The Simulation object should use this method to log
         # the results of every call of a Person object's .resolve_infection() method.
         # If the person survives, did_die_from_infection should be False.  Otherwise,
@@ -95,6 +102,8 @@ class Logger(object):
         pass
 
     def log_time_step(self, time_step_number):
+          with open('%s.txt' % self.file_name, 'a') as f:
+            f.write("%s\n" % time_step_number)
         # TODO: Finish this method.  This method should log when a time step ends, and a
         # new one begins.  See the documentation for more information on the format of the log.
         # NOTE: Stretch challenge opportunity! Modify this method so that at the end of each time

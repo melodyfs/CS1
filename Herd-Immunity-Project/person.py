@@ -41,17 +41,28 @@ class Person(object):
             is_vaccinated attribute is changed to True, and set self.infected to None.
     '''
 
-    def __init__(self, _id, is_vaccinated, infected=None):
-        # TODO:  Finish this method.  Follow the instructions in the class documentation
-        # to set the corret values for the following attributes.
-        self._id = None
-        self.is_vaccinated = None
-        self.is_alive = None
+    person = {}
+
+    def __init__(self, _id, is_vaccinated, infected=None, mortality_rate):
+        self._id = 0
+        self.is_vaccinated = False
+        self.is_alive = True
         self.infected = None
+        self.mortality_rate = 0.04
 
 
-    def did_survive_infection():
+    def did_survive_infection(self):
+        if self.infected is not None:
+            random_num = random.randint(0,1)
+            # TODO: Where to define mortality_rate??
+            if self.mortality_rate > random_num:
+                self.is_alive = False
+            else:
+                self.is_alive = True
+                self.infected = None
+
+
         # TODO:  Finish this method. Follow the instructions in the class documentation
         # for resolve_infection.  If person dies, set is_alive to False and return False.
-        # If person lives, set is_vaccinated = True, infected = None, return True.  
+        # If person lives, set is_vaccinated = True, infected = None, return True.
         pass
