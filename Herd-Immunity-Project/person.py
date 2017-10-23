@@ -60,9 +60,3 @@ class Person(object):
             else:
                 self.is_alive = True
                 self.infected = None
-
-
-        # TODO:  Finish this method. Follow the instructions in the class documentation
-        # for resolve_infection.  If person dies, set is_alive to False and return False.
-        # If person lives, set is_vaccinated = True, infected = None, return True.
-        pass
