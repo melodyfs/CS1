@@ -43,7 +43,7 @@ class Person(object):
 
     person = {}
 
-    def __init__(self, _id, is_vaccinated, infected=None, mortality_rate):
+    def __init__(self, _id, is_vaccinated, infected):
         self._id = 0
         self.is_vaccinated = False
         self.is_alive = True

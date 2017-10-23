@@ -2,7 +2,8 @@ import random, sys
 # Predictable random numbers, but help with testing
 random.seed(42)
 from person import Person
-from logger import Logger
+import pdb
+# from logger import Logger
 
 class Simulation(object):
     '''
@@ -73,6 +74,7 @@ class Simulation(object):
     def __init__(self, population_size, vacc_percentage, virus_name,
                  mortality_rate, basic_repro_num, initial_infected=1):
         self.population_size = population_size
+        self.vacc_percentage = vacc_percentage
         self.population = []
         self.total_infected = 0
         self.current_infected = 0
@@ -99,44 +101,38 @@ class Simulation(object):
         self._create_population(initial_infected)
 
     def _create_population(self, initial_infected):
-        # TODO: Finish this method!  This method should be called when the simulation
-        # begins, to create the population that will be used. This method should return
-        # an array filled with Person objects that matches the specifications of the
-        # simulation (correct number of people in the population, correct percentage of
-        # people vaccinated, correct number of initially infected people).
         population = []
         infected_count = 0
-        while len(population) != pop_size:
-            if infected_count !=  initial_infected:
-                population = Person(self._id, True, None, self.mortality_rate)
-                infected_count += 1
 
-                # TODO: Create all the infected people first, and then worry about the rest.
-                # Don't forget to increment infected_count every time you create a
-                # new infected person!
-                # pass
+        while len(population) != self.population_size:
+            if infected_count !=  initial_infected:
+                infected_person = Person(self.next_person_id, False, self.virus_name)
+                population.append(infected_person)
+                self.next_person_id += 1
+                infected_count += 1
             else:
-                new_person = Person(self._id, False, None, self.mortality_rate)
+                new_person = Person(self.next_person_id, False, None)
                 random_num = random.randint(0,1)
                 if random_num < self.vacc_percentage:
+                    self.next_person_id += 1
                     new_person.is_vaccinated = True
                     population.append(new_person)
                 else:
-                    new_person.is_vaccinated = False
                     population.append(new_person)
+                    self.next_person_id += 1
                     self.newly_infected.append(new_person)
-                # Now create all the rest of the people.
-                # Every time a new person will be created, generate a random number between
-                # 0 and 1.  If this number is smaller than vacc_percentage, this person
-                # should be created as a vaccinated person. If not, the person should be
-                # created as an unvaccinated person.
-                # pass
             self.next_person_id += 1
             # TODO: After any Person object is created, whether sick or healthy,
             # you will need to increment self.next_person_id by 1. Each Person object's
             # ID has to be unique!
-        print(population)
+        self.population = population
+
+        for person in population:
+            print("id:{}\tV:{}\tI:{}".format(person._id, person.is_vaccinated,
+            person.infected))
+
         return population
+
 
     def _simulation_should_continue(self):
 
@@ -146,6 +142,11 @@ class Simulation(object):
         #     - The entire population is dead.
         #     - There are no infected people left in the population.
         # In all other instances, the simulation should continue.
+        for person in self.population:
+            if person.is_alive is True:
+                return True
+
+
         pass
 
     def run(self):
@@ -192,6 +193,15 @@ class Simulation(object):
         assert person1.is_alive == True
         assert random_person.is_alive == True
 
+        if person1.is_vaccinated is True and random_person.is_vaccinated:
+            self.logger.log_interaction()
+        elif person1.is_vaccinated is True and random_person.is_vaccinated:
+            self.logged.log_interaction()
+        elif person1.is_vaccinated is True and random_person.infected is not None:
+            random_num = random.randint(0, 1)
+            if random_num < self.basic_repro_num:
+                self.newly_infected.append(random_person._id)
+
         # The possible cases you'll need to cover are listed below:
             # random_person is vaccinated:
             #     nothing happens to random person.
@@ -216,6 +226,7 @@ class Simulation(object):
         # NOTE: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list!
         pass
+
 # if __name__ == "__main__":
     # params = sys.argv[1:]
     # pop_size = int(params[0])
@@ -232,5 +243,5 @@ class Simulation(object):
 
     # simulation.run()
 
-simulation = Simulation(100, 0.7, "Mers", 0.45, 0.6)
-simulation._create_population(1)
+simulation = Simulation(10, 0.7, "Mers", 0.45, 0.6, 3)
+simulation._create_population(3)
